@@ -76,7 +76,7 @@ if (playerId === 2) {
 
 
 
-// On Click
+// On Click buttons
 $("#rock-button").on("click", function(event) {
   event.preventDefault();
   if (playerId === 1) {
@@ -124,6 +124,38 @@ $("#scissors-button").on("click", function(event) {
     });
   }
 });
+
+database.ref().on('value', function(snap) {
+  if (snap.val().playerOneChoice !== "" && snap.val().playerTwoChoice !== "") {
+    // compare choices
+    switch (snap.val().playerOneChoice + snap.val().playerTwoChoice) {
+      case "rockpaper":
+        $('.game-area').text("Player 2 wins!");
+        break;
+      case "rockscissors":
+        $('.game-area').text("Player 1 wins!");
+        break;
+      case "paperrock":
+        $('.game-area').text("Player 1 wins!");
+        break;
+      case "paperscissors":
+        $('.game-area').text("Player 2 wins!");
+        break;
+      case "scissorsrock":
+        $('.game-area').text("Player 2 wins!");
+        break;
+      case "scissorspaper":
+        $('.game-area').text("Player 1 wins!");
+        break;
+      default:
+        $('.game-area').text("It's a tie.");
+    }
+    database.ref().update({
+      playerOneChoice: "",
+      playerTwoChoice: ""
+    });
+  };
+})
 
 $('#submit-button').on("click", function (event) {
   event.preventDefault();
