@@ -31,7 +31,7 @@ img {
   background: floralwhite;
   border-radius: 10px;
   padding: 10px;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .chat-message {
@@ -49,6 +49,7 @@ img {
   border: solid 1px black;
   background: seagreen;
   border-radius: 10px;
+  padding: 10px;
 }
 
 .row {
