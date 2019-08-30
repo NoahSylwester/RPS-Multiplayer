@@ -127,12 +127,24 @@ $("#scissors-button").on("click", function(event) {
 
 $('#submit-button').on("click", function (event) {
   event.preventDefault();
-  chatMessage = $('#message-input').val().trim();
-  database.ref().update({
-    chatMessage: chatMessage,
-  });
+  if ($('#message-input').val().trim() !== "") {
+    chatMessage = $('#message-input').val().trim();
+    if (playerId !== 3) {
+      database.ref().update({
+        chatMessage: `Player ${playerId}: ` + chatMessage,
+      });
+    }
+    else {
+      database.ref().update({
+        chatMessage: `Spectator: ` + chatMessage,
+      });
+    }
+  }
+  $('#message-input').val("");
 })
 
 database.ref("chatMessage").on('value', function(snap) {
-  $('.chat-area').prepend(`<div class="chat-message">Player ${playerId}: ${snap.val()}</div>`);
+  if (playerId !== 0){
+  $('.chat-area').prepend(`<div class="chat-message">${snap.val()}</div>`);
+  };
 })
