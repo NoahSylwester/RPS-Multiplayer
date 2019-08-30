@@ -1,5 +1,5 @@
-// Your web app's Firebase configuration
-var firebaseConfig = {
+ // Your web app's Firebase configuration
+ var firebaseConfig = {
   apiKey: "AIzaSyCyRdnTBWciurlZKeh00AeqDzyLhxW3MLQ",
   authDomain: "multiplayer-rps-dbf7f.firebaseapp.com",
   databaseURL: "https://multiplayer-rps-dbf7f.firebaseio.com",
@@ -11,57 +11,128 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+
 var isPlayerOneConnected = false;
 var isPlayerTwoConnected = false;
+var playerId = 0;
 var playerOneChoice = "";
 var playerTwoChoice = "";
+var chatMessage = "";
+
 
 var database = firebase.database();
-var connectedRef = database.ref(".info/connected");
-
-connectedRef.on("value", function(snap) {
-  if (snap.val() === true) {
-    alert("connected");
-  } else {
-    alert("not connected");
-  }
-});
+var connectedRef = firebase.database().ref(".info/connected");
+var presenceRef = firebase.database().ref();
 
 
-
-
-// On Click
-$("#click-button").on("click", function() {
-
-  // Add 1 to clickCounter
-  clickCounter++;
-
-  // **** Store Click Data to Firebase in a JSON property called clickCount *****
-  // **** Note how we are using the Firebase .set() method ****
-  // **** .ref() refers to the path you want to save your data to
-  // **** Since we left .ref() blank, it will save to the root directory
-  database.ref().set({
-    clickCount: clickCounter,
-    codeQuality: "super-excellent-wonderful"
-  });
-});
-
+// initialize firebase variables locally, determine playerId
+var startup = true;
 database.ref().on("value", function(snapshot) {
-
-  // Log everything that's coming out of snapshot
-  console.log(snapshot.val());
-  console.log(snapshot.val().name);
-  console.log(snapshot.val().email);
-  console.log(snapshot.val().age);
-  console.log(snapshot.val().comment);
-
-  // Change the HTML to reflect
-  $("#name-display").text(snapshot.val().name);
-  $("#email-display").text(snapshot.val().email);
-  $("#age-display").text(snapshot.val().age);
-  $("#comment-display").text(snapshot.val().comment);
-
+  
+  if (startup) {
+    isPlayerOneConnected = snapshot.val().isPlayerOneConnected;
+    isPlayerTwoConnected = snapshot.val().isPlayerTwoConnected;
+    playerOneChoice = snapshot.val().playerOneChoice;
+    playerTwoChoice = snapshot.val().playerTwoChoice;
+    startup = false;
+    if (!isPlayerOneConnected) {
+      console.log('first');
+      playerId = 1;
+      isPlayerOneConnected = true;
+      database.ref().update({
+        isPlayerOneConnected: isPlayerOneConnected
+      })
+    }
+    else if (!isPlayerTwoConnected) {
+      console.log('second');
+      playerId = 2;
+      isPlayerTwoConnected = true;
+      database.ref().update({
+        isPlayerTwoConnected: isPlayerTwoConnected
+      })
+    }
+    else {
+      console.log('third');
+      playerId = 3;
+    }
+  }
+// set disconnect protocols
+if (playerId === 1) {
+  presenceRef.onDisconnect().update({
+    isPlayerOneConnected: false,
+    playerOneChoice: ""
+  });
+}
+if (playerId === 2) {
+  presenceRef.onDisconnect().update({
+    isPlayerTwoConnected: false,
+    playerTwoChoice: ""
+  });
+}
   // Handle the errors
 }, function(errorObject) {
   console.log("Errors handled: " + errorObject.code);
 });
+
+
+
+// On Click
+$("#rock-button").on("click", function(event) {
+  event.preventDefault();
+  if (playerId === 1) {
+    playerOneChoice = "rock";
+    database.ref().update({
+      playerOneChoice: playerOneChoice,
+    });
+  }
+  else if (playerId === 2) {
+    playerTwoChoice = "rock";
+    database.ref().update({
+      playerTwoChoice: playerTwoChoice,
+    });
+  }
+});
+
+$("#paper-button").on("click", function(event) {
+  event.preventDefault();
+  if (playerId === 1) {
+    playerOneChoice = "paper";
+    database.ref().update({
+      playerOneChoice: playerOneChoice,
+    });
+  }
+  else if (playerId === 2) {
+    playerTwoChoice = "paper";
+    database.ref().update({
+      playerTwoChoice: playerTwoChoice,
+    });
+  }
+});
+
+$("#scissors-button").on("click", function(event) {
+  event.preventDefault();
+  if (playerId === 1) {
+    playerOneChoice = "scissors";
+    database.ref().update({
+      playerOneChoice: playerOneChoice,
+    });
+  }
+  else if (playerId === 2) {
+    playerTwoChoice = "scissors";
+    database.ref().update({
+      playerTwoChoice: playerTwoChoice,
+    });
+  }
+});
+
+$('#submit-button').on("click", function (event) {
+  event.preventDefault();
+  chatMessage = $('#message-input').val().trim();
+  database.ref().update({
+    chatMessage: chatMessage,
+  });
+})
+
+database.ref("chatMessage").on('value', function(snap) {
+  $('.chat-area').prepend(`<div class="chat-message">Player ${playerId}: ${snap.val()}</div>`);
+})
