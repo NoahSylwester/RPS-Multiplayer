@@ -241,12 +241,12 @@ $('#submit-button').on("click", function (event) {
     chatMessage = $('#message-input').val().trim();
     if (playerId !== 3) {
       database.ref().update({
-        chatMessage: `Player ${playerId}: ` + chatMessage,
+        chatMessage: `<div class="chat-message${playerId}">Player ${playerId}: ` + chatMessage + `</div>`,
       });
     }
     else {
       database.ref().update({
-        chatMessage: `Spectator: ` + chatMessage,
+        chatMessage: `<div class="chat-message${playerId}">Spectator: ` + chatMessage + `</div>`,
       });
     }
   }
@@ -255,7 +255,7 @@ $('#submit-button').on("click", function (event) {
 
 database.ref("chatMessage").on('value', function(snap) {
   if (playerId !== 0){
-  $('.chat-area').prepend(`<div class="chat-message">${snap.val()}</div>`);
+  $('.chat-area').prepend(snap.val());
   };
 })
 

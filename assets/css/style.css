@@ -48,9 +48,27 @@ img {
   overflow-y: scroll;
 }
 
-.chat-message {
+.chat-message1 {
   width: 100%;
-  background: rgb(255, 247, 138);
+  background: rgb(255, 250, 177);
+  border-radius: 7px;
+  margin: 2px;
+  padding: 5px;
+  overflow-wrap: break-word;
+}
+
+.chat-message2 {
+  width: 100%;
+  background: rgb(255, 196, 255);
+  border-radius: 7px;
+  margin: 2px;
+  padding: 5px;
+  overflow-wrap: break-word;
+}
+
+.chat-message3 {
+  width: 100%;
+  background: rgb(190, 255, 230);
   border-radius: 7px;
   margin: 2px;
   padding: 5px;
