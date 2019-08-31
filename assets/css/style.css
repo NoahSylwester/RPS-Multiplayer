@@ -1,5 +1,7 @@
 img {
   width: 30%;
+  height: 40%;
+  object-fit: cover;
 }
 
 .game-area {

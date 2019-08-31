@@ -152,25 +152,68 @@ database.ref().on('value', function(snap) {
     // compare choices
     switch (snap.val().playerOneChoice + snap.val().playerTwoChoice) {
       case "rockpaper":
-        $('.game-area').text("Player 2 wins!");
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (3).png">
+        <p>Player 2 wins!</p>
+        <img src="./assets/images/drawisland (1).png">
+        `);
         break;
       case "rockscissors":
-        $('.game-area').text("Player 1 wins!");
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (3).png">
+        <p>Player 1 wins!</p>
+        <img src="./assets/images/drawisland (2).png">
+    `);
         break;
       case "paperrock":
-        $('.game-area').text("Player 1 wins!");
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (1).png">
+        <p>Player 1 wins!</p>
+        <img src="./assets/images/drawisland (3).png">
+    `);
         break;
       case "paperscissors":
-        $('.game-area').text("Player 2 wins!");
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (1).png">
+        <p>Player 2 wins!</p>
+        <img src="./assets/images/drawisland (2).png">
+    `);
         break;
       case "scissorsrock":
-        $('.game-area').text("Player 2 wins!");
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (2).png">
+        <p>Player 2 wins!</p>
+        <img src="./assets/images/drawisland (3).png">
+    `);
         break;
       case "scissorspaper":
-        $('.game-area').text("Player 1 wins!");
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (2).png">
+        <p>Player 1 wins!</p>
+        <img src="./assets/images/drawisland (1).png">
+    `);
         break;
-      default:
-        $('.game-area').text("It's a tie.");
+      case "rockrock":
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (3).png">
+        <p>It's a tie.</p>
+        <img src="./assets/images/drawisland (3).png">
+    `);
+        break;
+      case "paperpaper":
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (1).png">
+        <p>It's a tie.</p>
+        <img src="./assets/images/drawisland (1).png">
+    `);
+        break;
+      case "scissorsscissors":
+        $('.game-area').html(`
+        <img src="./assets/images/drawisland (2).png">
+        <p>It's a tie.</p>
+        <img src="./assets/images/drawisland (2).png">
+    `);
+        break;
     }
     database.ref().update({
       playerOneChoice: "",
