@@ -18,6 +18,7 @@ var playerId = 0;
 var playerOneChoice = "";
 var playerTwoChoice = "";
 var chatMessage = "";
+var waitingEllipsis; // animates ellipsis when waiting for other player
 
 
 var database = firebase.database();
@@ -126,7 +127,26 @@ $("#scissors-button").on("click", function(event) {
 });
 
 database.ref().on('value', function(snap) {
-  if (snap.val().playerOneChoice !== "" && snap.val().playerTwoChoice !== "") {
+  if (snap.val().playerOneChoice === "" && snap.val().playerTwoChoice !== "") {
+    $('.game-area').text("Waiting for player 1");
+    waitingEllipsis = setInterval(function() {
+      $('.game-area').text($('.game-area').text() + ".");
+      if ($('.game-area').text() === "Waiting for player 1....") {
+        $('.game-area').text("Waiting for player 1");
+      }
+      }, 800);
+    }
+  else if (snap.val().playerOneChoice !== "" && snap.val().playerTwoChoice === "") {
+    $('.game-area').text("Waiting for player 2");
+    waitingEllipsis = setInterval(function() {
+      $('.game-area').text($('.game-area').text() + ".");
+      if ($('.game-area').text() === "Waiting for player 2....") {
+        $('.game-area').text("Waiting for player 2");
+      }
+      }, 800);
+    }
+  else if (snap.val().playerOneChoice !== "" && snap.val().playerTwoChoice !== "") {
+    clearInterval(waitingEllipsis); // stop waiting text
     // compare choices
     switch (snap.val().playerOneChoice + snap.val().playerTwoChoice) {
       case "rockpaper":
