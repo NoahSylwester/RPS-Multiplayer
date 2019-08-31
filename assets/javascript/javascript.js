@@ -17,6 +17,8 @@ var isPlayerTwoConnected = false;
 var playerId = 0;
 var playerOneChoice = "";
 var playerTwoChoice = "";
+var playerOneWins = 0;
+var playerTwoWins = 0;
 var chatMessage = "";
 var waitingEllipsis; // animates ellipsis when waiting for other player
 
@@ -35,6 +37,7 @@ database.ref().on("value", function(snapshot) {
     isPlayerTwoConnected = snapshot.val().isPlayerTwoConnected;
     playerOneChoice = snapshot.val().playerOneChoice;
     playerTwoChoice = snapshot.val().playerTwoChoice;
+    
     startup = false;
     if (!isPlayerOneConnected) {
       console.log('first');
@@ -61,21 +64,23 @@ database.ref().on("value", function(snapshot) {
 if (playerId === 1) {
   presenceRef.onDisconnect().update({
     isPlayerOneConnected: false,
-    playerOneChoice: ""
+    playerOneChoice: "",
+    playerOneWins: 0,
+    playerTwoWins: 0
   });
 }
 if (playerId === 2) {
   presenceRef.onDisconnect().update({
     isPlayerTwoConnected: false,
-    playerTwoChoice: ""
+    playerTwoChoice: "",
+    playerOneWins: 0,
+    playerTwoWins: 0
   });
 }
   // Handle the errors
 }, function(errorObject) {
   console.log("Errors handled: " + errorObject.code);
 });
-
-
 
 // On Click buttons
 $("#rock-button").on("click", function(event) {
@@ -154,73 +159,81 @@ database.ref().on('value', function(snap) {
       case "rockpaper":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (3).png">
-        <p>Player 2 wins!</p>
+        <p class="result">Player 2 wins!</p>
         <img src="./assets/images/drawisland (1).png">
-        `);
+      `);
         break;
       case "rockscissors":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (3).png">
-        <p>Player 1 wins!</p>
+        <p class="result">Player 1 wins!</p>
         <img src="./assets/images/drawisland (2).png">
-    `);
+      `);
         break;
       case "paperrock":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (1).png">
-        <p>Player 1 wins!</p>
+        <p class="result">Player 1 wins!</p>
         <img src="./assets/images/drawisland (3).png">
-    `);
+      `);
         break;
       case "paperscissors":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (1).png">
-        <p>Player 2 wins!</p>
+        <p class="result">Player 2 wins!</p>
         <img src="./assets/images/drawisland (2).png">
-    `);
+      `);
         break;
       case "scissorsrock":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (2).png">
-        <p>Player 2 wins!</p>
+        <p class="result">Player 2 wins!</p>
         <img src="./assets/images/drawisland (3).png">
-    `);
+      `);
         break;
       case "scissorspaper":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (2).png">
-        <p>Player 1 wins!</p>
+        <p class="result">Player 1 wins!</p>
         <img src="./assets/images/drawisland (1).png">
-    `);
+      `);
         break;
       case "rockrock":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (3).png">
-        <p>It's a tie.</p>
+        <p class="result">It's a tie.</p>
         <img src="./assets/images/drawisland (3).png">
-    `);
+      `);
         break;
       case "paperpaper":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (1).png">
-        <p>It's a tie.</p>
+        <p class="result">It's a tie.</p>
         <img src="./assets/images/drawisland (1).png">
-    `);
+      `);
         break;
       case "scissorsscissors":
         $('.game-area').html(`
         <img src="./assets/images/drawisland (2).png">
-        <p>It's a tie.</p>
+        <p class="result">It's a tie.</p>
         <img src="./assets/images/drawisland (2).png">
-    `);
+      `);
         break;
     }
+  if ($('.result').text() === "Player 1 wins!") {
+    playerOneWins += 1;
+  }
+  else if ($('.result').text() === "Player 2 wins!") {
+    playerTwoWins += 1;
+  }
+  
+    $('#scoreboard').html(`Player 1 wins: ${playerOneWins}<br />Player 2 wins: ${playerTwoWins}`)
     database.ref().update({
       playerOneChoice: "",
       playerTwoChoice: ""
     });
   };
-})
+});
 
 $('#submit-button').on("click", function (event) {
   event.preventDefault();
@@ -244,4 +257,12 @@ database.ref("chatMessage").on('value', function(snap) {
   if (playerId !== 0){
   $('.chat-area').prepend(`<div class="chat-message">${snap.val()}</div>`);
   };
+})
+
+database.ref("isPlayerOneConnected").on("value", function(snap) {
+  $('#scoreboard').html(`Player 1 wins: 0<br />Player 2 wins: 0`);
+})
+
+database.ref("isPlayerTwoConnected").on("value", function(snap) {
+  $('#scoreboard').html(`Player 1 wins: 0<br />Player 2 wins: 0`);
 })

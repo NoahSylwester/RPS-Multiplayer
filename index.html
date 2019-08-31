@@ -19,17 +19,20 @@
           </h1>
         </div>
         <div class="row">
-          <main class="col-12 game-area">
+          <main class="col-12 game-area window">
             <img src="./assets/images/drawisland (3).png">
             <img src="./assets/images/drawisland (1).png">
             <img src="./assets/images/drawisland (2).png">
           </main>
         </div>
         <div class="row">
-          <div class="col-12 controls-area">
+          <div class="col controls-area window">
             <button id="rock-button" class="btn btn-lg btn-primary">Rock</button>
             <button id="paper-button" class="btn btn-lg btn-primary">Paper</button>
             <button id="scissors-button" class="btn btn-lg btn-primary">Scissors</button>
+            <div id="scoreboard">
+              Player 1 wins: 0<br />Player 2 wins: 0
+            </div>
           </div>
         </div>
       </div>
@@ -40,14 +43,14 @@
           </h1>
         </div>
         <div class="row">
-          <div class="col-12 chat-area"></div>
+          <div class="col-12 chat-area window"></div>
         </div>
         <div class="row">
-          <div class="col-12 message-area">
+          <div class="col-12 message-area window">
             <form>
               <div class="form-group">
                 <label for="message-input">Chat</label>
-                <textarea type="text" class="form-control" id="message-input" placeholder="Enter message"></textarea>
+                <input type="text" class="form-control" id="message-input" placeholder="Enter message"></input>
               </div>
               <button type="submit" id="submit-button" class="btn btn-primary">Submit</button>
             </form>
