@@ -129,6 +129,7 @@ $("#scissors-button").on("click", function(event) {
 database.ref().on('value', function(snap) {
   if (snap.val().playerOneChoice === "" && snap.val().playerTwoChoice !== "") {
     $('.game-area').text("Waiting for player 1");
+    clearInterval(waitingEllipsis);
     waitingEllipsis = setInterval(function() {
       $('.game-area').text($('.game-area').text() + ".");
       if ($('.game-area').text() === "Waiting for player 1....") {
@@ -138,6 +139,7 @@ database.ref().on('value', function(snap) {
     }
   else if (snap.val().playerOneChoice !== "" && snap.val().playerTwoChoice === "") {
     $('.game-area').text("Waiting for player 2");
+    clearInterval(waitingEllipsis);
     waitingEllipsis = setInterval(function() {
       $('.game-area').text($('.game-area').text() + ".");
       if ($('.game-area').text() === "Waiting for player 2....") {
