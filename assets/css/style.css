@@ -89,7 +89,7 @@ img {
   padding: 3px;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 770px) {
   #scoreboard {
     font-size: .5rem;
   }
