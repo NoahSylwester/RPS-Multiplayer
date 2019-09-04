@@ -18,6 +18,10 @@ img {
   text-align: center;
 }
 
+.btn {
+  border: solid white 1px;
+}
+
 .window {
   width: 100%;
   border: solid 4px black;
@@ -83,4 +87,10 @@ img {
 
 .row {
   padding: 3px;
+}
+
+@media only screen and (max-width: 800px) {
+  #scoreboard {
+    font-size: .5rem;
+  }
 }
