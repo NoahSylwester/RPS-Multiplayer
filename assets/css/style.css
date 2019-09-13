@@ -91,6 +91,6 @@ img {
 
 @media only screen and (max-width: 770px) {
   #scoreboard {
-    font-size: .5rem;
+    font-size: 7px;
   }
 }
