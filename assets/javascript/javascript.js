@@ -40,7 +40,7 @@ database.ref().on("value", function(snapshot) {
     
     startup = false;
     if (!isPlayerOneConnected) {
-      console.log('first');
+      $('#player-designation').text('You are Player 1');
       playerId = 1;
       isPlayerOneConnected = true;
       database.ref().update({
@@ -48,7 +48,7 @@ database.ref().on("value", function(snapshot) {
       })
     }
     else if (!isPlayerTwoConnected) {
-      console.log('second');
+      $('#player-designation').text('You are Player 2');
       playerId = 2;
       isPlayerTwoConnected = true;
       database.ref().update({
@@ -56,7 +56,7 @@ database.ref().on("value", function(snapshot) {
       })
     }
     else {
-      console.log('third');
+      $('#player-designation').text('You are a spectator');
       playerId = 3;
     }
   }

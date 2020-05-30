@@ -18,6 +18,10 @@ img {
   text-align: center;
 }
 
+#player-designation {
+  text-align: center;
+}
+
 .btn {
   border: solid white 1px;
 }
